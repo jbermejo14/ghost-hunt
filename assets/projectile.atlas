@@ -1,0 +1,5 @@
+projectile.png
+size:64,64
+repeat:none
+bullet
+bounds:2,2,60,60
