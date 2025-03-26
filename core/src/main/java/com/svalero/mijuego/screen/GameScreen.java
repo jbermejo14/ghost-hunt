@@ -1,6 +1,9 @@
 package com.svalero.mijuego.screen;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.svalero.mijuego.Mijuego;
 import com.svalero.mijuego.manager.*;
 
@@ -10,25 +13,31 @@ public class GameScreen implements Screen {
     private RenderManager renderManager;
     private LevelManager levelManager;
     private Mijuego game;
+    private int remainingEnemies;
+
+    private BitmapFont font;
+    private SpriteBatch batch;
 
     public GameScreen(Mijuego game) {
         this.game = game;
 
         ConfigurationManager.loadPreferences();
-
         loadManagers();
+        remainingEnemies = 5;
+        font = new BitmapFont(); // Create font
+        font.getData().setScale(2);
+        font.setColor(Color.WHITE);
+        batch = new SpriteBatch(); // Create batch for rendering text
     }
 
     private void loadManagers() {
         logicManager = new LogicManager(game);
         levelManager = new LevelManager(logicManager);
-
         renderManager = new RenderManager(logicManager, levelManager.map);
     }
 
     @Override
     public void show() {
-
     }
 
     @Override
@@ -37,30 +46,32 @@ public class GameScreen implements Screen {
             logicManager.update(dt);
         }
         renderManager.render();
+
+        batch.begin();
+        font.draw(batch, "Enemies Remaining: " + LogicManager.getRemainingEnemies(), 20, 460); // Display kill count
+        batch.end();
     }
 
     @Override
     public void resize(int i, int i1) {
-
     }
 
     @Override
     public void pause() {
-
     }
 
     @Override
     public void resume() {
-
     }
 
     @Override
     public void hide() {
-
     }
 
     @Override
     public void dispose() {
         R.dispose();
+        font.dispose(); // Dispose font to avoid memory leaks
+        batch.dispose(); // Dispose batch
     }
 }

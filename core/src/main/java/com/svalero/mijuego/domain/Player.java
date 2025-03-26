@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.svalero.mijuego.manager.R;
+import com.svalero.mijuego.screen.GameScreen;
 import lombok.Data;
 
 import static com.svalero.mijuego.util.Constants.TILE_HEIGHT;
@@ -29,6 +30,7 @@ public class Player extends Character {
     private float stateTime;
     public TiledMap map;
     private Array<Projectile> projectiles = new Array<>();
+    private GameScreen gameScreen;
 
     public Player(TextureRegion image, TiledMapTileLayer collisionLayer) {
         super(image);
@@ -155,5 +157,4 @@ public class Player extends Character {
 
         return false;
     }
-
 }

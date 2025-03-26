@@ -2,6 +2,7 @@ package com.svalero.mijuego.manager;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -16,6 +17,7 @@ public class RenderManager {
     private Batch batch;
     private OrthogonalTiledMapRenderer mapRenderer;
     private OrthographicCamera camera;
+    private BitmapFont font = new BitmapFont();
 
     public RenderManager(LogicManager logicManager, TiledMap map) {
         this.logicManager = logicManager;
@@ -31,7 +33,7 @@ public class RenderManager {
     public void render() {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
 
-        updateCamera();  // Move the camera to follow the player
+        updateCamera();
 
         camera.update();
         mapRenderer.setView(camera);
@@ -47,15 +49,15 @@ public class RenderManager {
             }
         }
 
-        // Draw bullets
+        // Draw projectiles
         for (Projectile projectile : logicManager.player.getProjectiles()) {
             if (projectile.isActive()) {
                 batch.draw(projectile.getTexture(), projectile.getPosition().x, projectile.getPosition().y);
             }
         }
+
         batch.end();
     }
-
     private void updateCamera() {
         camera.position.set(
             logicManager.player.getX() + TILE_WIDTH / 2f,
@@ -63,4 +65,5 @@ public class RenderManager {
             0
         );
     }
+
 }

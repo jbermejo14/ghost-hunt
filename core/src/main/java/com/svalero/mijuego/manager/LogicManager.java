@@ -18,12 +18,14 @@ import static com.svalero.mijuego.domain.Player.State.*;
 import static com.svalero.mijuego.util.Constants.*;
 
 import static com.svalero.mijuego.util.Constants.PLAYER_RUNNING_SPEED;
+import com.svalero.mijuego.screen.GameScreen;
 
 public class LogicManager {
     public Player player;
     private Mijuego game;
     TiledMap map = new TmxMapLoader().load("level1.tmx");
     Array<Enemy> enemies = new Array<>();
+    private static int remainingEnemies = 0;
 
     public LogicManager(Mijuego game) {
         this.game = game;
@@ -33,9 +35,15 @@ public class LogicManager {
     private void load() {
         TiledMapTileLayer collisionLayer = (TiledMapTileLayer) map.getLayers().get("ground");
         player = new Player(R.getTexture("astro_idle_right"), collisionLayer);
-        Enemy enemy = new Enemy(R.getTexture("astro_idle_right"), 400, 600, 100, 100, 300);
+        Enemy enemy = new Enemy(R.getTextureEnemy("ghost-idle"), 300, 600, 100, 100, 300);
+        Enemy enemy2 = new Enemy(R.getTextureEnemy("ghost-idle"), 350, 600, 100, 100, 300);
         enemy.setPlayer(player);
+        enemy2.setPlayer(player);
         enemies.add(enemy);
+        enemies.add(enemy2);
+
+
+        remainingEnemies = enemies.size;
 
         for (int x = 0; x < collisionLayer.getWidth(); x++) {
             for (int y = 0; y < collisionLayer.getHeight(); y++) {
@@ -70,6 +78,7 @@ public class LogicManager {
 
     private void updateProjectiles(float dt) {
         Array<Projectile> projectiles = player.getProjectiles();
+        Array<Enemy> enemiesToRemove = new Array<>(); // This will store enemies to be removed
 
         for (Projectile projectile : projectiles) {
             projectile.update(dt);
@@ -80,15 +89,29 @@ public class LogicManager {
                     projectile.setActive(false);
                     R.getSound("death").play();
                     enemy.kill();
+                    enemiesToRemove.add(enemy);
 
                 }
             }
         }
+        for (Enemy enemy : enemiesToRemove) {
+            enemies.removeValue(enemy, true); // Remove the enemy from the enemies list
+        }
 
-        // Remove inactive projectiles
+        // Update remaining enemies count if needed
+        updateRemainingEnemies();
+    }
+    private void updateRemainingEnemies() {
+        remainingEnemies = 0;
+        for (Enemy enemy : enemies) {
+            if (enemy.isAlive()) {
+                remainingEnemies++;
+            }
+        }
+    }
 
-        // Remove dead enemies
-
+    public static int getRemainingEnemies() {
+        return remainingEnemies;
     }
 
     public void update(float dt) {
