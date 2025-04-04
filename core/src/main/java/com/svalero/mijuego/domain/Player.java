@@ -53,6 +53,10 @@ public class Player extends Character {
         setPosition(new Vector2(0, TILE_HEIGHT * 2));
     }
 
+    public void setCollisionLayer(TiledMapTileLayer layer) {
+        this.collisionLayer = layer;
+    }
+
     public Array<Projectile> getProjectiles() {
         return projectiles;
     }

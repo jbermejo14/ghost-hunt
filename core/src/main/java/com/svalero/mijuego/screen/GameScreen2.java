@@ -9,7 +9,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.svalero.mijuego.Mijuego;
 import com.svalero.mijuego.manager.*;
 
-public class GameScreen implements Screen {
+public class GameScreen2 implements Screen {
 
     private LogicManager logicManager;
     private RenderManager renderManager;
@@ -19,9 +19,9 @@ public class GameScreen implements Screen {
 
     private BitmapFont font;
     private SpriteBatch batch;
-    TiledMap map = new TmxMapLoader().load("level1.tmx");
+    TiledMap map = new TmxMapLoader().load("level2.tmx");
 
-    public GameScreen(Mijuego game) {
+    public GameScreen2(Mijuego game) {
         this.game = game;
 
         ConfigurationManager.loadPreferences();
@@ -50,8 +50,8 @@ public class GameScreen implements Screen {
         }
         renderManager.render();
         batch.begin();
-        font.draw(batch, "Enemies Remaining: " + LogicManager.getRemainingEnemies(), 20, 460);
-        font.draw(batch, "Level 1", 20, 400);
+        font.draw(batch, "Enemies Remaining: " + LogicManager.getRemainingEnemies(), 20, 460); // Display kill count
+        font.draw(batch, "Level 2 ", 20, 400); // Display kill count
 
         batch.end();
     }

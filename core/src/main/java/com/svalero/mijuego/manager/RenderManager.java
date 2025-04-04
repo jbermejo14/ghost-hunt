@@ -21,10 +21,7 @@ public class RenderManager {
 
     public RenderManager(LogicManager logicManager, TiledMap map) {
         this.logicManager = logicManager;
-
-        mapRenderer = new OrthogonalTiledMapRenderer(map);
-        batch = mapRenderer.getBatch();
-
+        updateMap(map);
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 20 * TILE_WIDTH, 15 * TILE_HEIGHT);
         camera.update();
@@ -41,6 +38,7 @@ public class RenderManager {
 
         batch.begin();
         batch.draw(logicManager.player.getCurrentFrame(), logicManager.player.getX(), logicManager.player.getY());
+        batch.draw(logicManager.santi.getCurrentFrame(), logicManager.santi.getX(), logicManager.santi.getY());
 
         // Draw enemies
         for (Enemy enemy : logicManager.enemies) {
@@ -58,6 +56,22 @@ public class RenderManager {
 
         batch.end();
     }
+
+    public void updateMap(TiledMap newMap) {
+        if (mapRenderer != null) {
+            mapRenderer.dispose(); // Dispose of the old renderer
+        }
+        mapRenderer = new OrthogonalTiledMapRenderer(newMap);
+        batch = mapRenderer.getBatch();
+        System.out.println("Map updated to: " + newMap);
+    }
+
+    public TiledMap getMap() {
+        return mapRenderer.getMap();
+    }
+
+
+
     private void updateCamera() {
         camera.position.set(
             logicManager.player.getX() + TILE_WIDTH / 2f,
