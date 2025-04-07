@@ -12,16 +12,13 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.svalero.mijuego.Mijuego;
-import com.svalero.mijuego.domain.Enemy;
-import com.svalero.mijuego.domain.Player;
-import com.svalero.mijuego.domain.Projectile;
+import com.svalero.mijuego.domain.*;
 
 import static com.svalero.mijuego.domain.Player.State.*;
 import static com.svalero.mijuego.util.Constants.*;
 
 import static com.svalero.mijuego.util.Constants.PLAYER_RUNNING_SPEED;
 
-import com.svalero.mijuego.domain.Santi;
 import com.svalero.mijuego.screen.GameScreen;
 import com.svalero.mijuego.screen.GameScreen2;
 
@@ -29,11 +26,13 @@ public class LogicManager {
     public Player player;
     private Mijuego game;
     Array<Enemy> enemies = new Array<>();
+
     private static int remainingEnemies = 0;
     public Santi santi;
     private LevelManager levelManager;
     private RenderManager renderManager;
     public static int currentLevel = 1;
+    Boss boss1;
 
     public LogicManager(Mijuego game) {
         this.game = game;
@@ -50,21 +49,16 @@ public class LogicManager {
             player.state = LEFT;
             player.move(-PLAYER_RUNNING_SPEED * dt, 0);
         } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            player.state = LEFT;
+            player.state = UP;
             player.move(0, PLAYER_RUNNING_SPEED * dt);
         } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            player.state = LEFT;
+            player.state = DOWN;
             player.move(0, -PLAYER_RUNNING_SPEED * dt);
         } else if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
             player.shoot();
-        } else {
-            if ((player.state == RIGHT) || (player.state == IDLE_RIGHT)) {
-                player.state = IDLE_RIGHT;
-            } else {
-                player.state = IDLE_LEFT;
-            }
         }
     }
+
     private TiledMap loadMap(String mapPath) {
         return new TmxMapLoader().load(mapPath);
     }
@@ -83,14 +77,21 @@ public class LogicManager {
         Enemy enemy3 = new Enemy(R.getTextureEnemy("ghost-idle"), 100, 1000, 100, 100, 300);
         Enemy enemy4 = new Enemy(R.getTextureEnemy("ghost-idle"), 350, 400, 100, 100, 300);
 
+        Boss boss1 = new Boss(R.getTextureBoss("boss-idle"), 600, 400, 100, 100, 300);
+
+        this.boss1 = boss1;
+
         enemy1.setPlayer(player);
         enemy2.setPlayer(player);
         enemy3.setPlayer(player);
         enemy4.setPlayer(player);
+        boss1.setPlayer(player);
+
         enemies.add(enemy1);
         enemies.add(enemy2);
         enemies.add(enemy3);
         enemies.add(enemy4);
+
         remainingEnemies = enemies.size;
     }
     private void updateProjectiles(float dt) {
@@ -163,6 +164,7 @@ public class LogicManager {
         for (Enemy enemy : enemies) {
             enemy.update(dt);
         }
+        this.boss1.update(dt);
         if (remainingEnemies <= 0) {
             changeToNextLevel();
         }

@@ -40,7 +40,7 @@ public class Player extends Character {
         currentLevel = 1;
         map = new TmxMapLoader().load("level1.tmx");
 
-        rightAnimation = new Animation<>(0.15f, R.getRegions("astro_run_right1"));
+        rightAnimation = new Animation<>(0.15f, R.getRegions("astro_run_right"));
         leftAnimation = new Animation<>(0.15f, R.getRegions("astro_run_left"));
 
         if (rightAnimation.getKeyFrames().length == 0 || leftAnimation.getKeyFrames().length == 0) {

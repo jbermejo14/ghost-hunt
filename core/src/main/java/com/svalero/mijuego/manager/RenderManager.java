@@ -47,6 +47,8 @@ public class RenderManager {
             }
         }
 
+        batch.draw(logicManager.boss1.getTexture(), logicManager.boss1.getPosition().x, logicManager.boss1.getPosition().y);
+
         // Draw projectiles
         for (Projectile projectile : logicManager.player.getProjectiles()) {
             if (projectile.isActive()) {
