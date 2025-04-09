@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.svalero.mijuego.manager.R;
+import com.svalero.mijuego.screen.GameScreen;
 import lombok.Data;
 
 import static com.svalero.mijuego.util.Constants.TILE_HEIGHT;
@@ -29,6 +30,7 @@ public class Player extends Character {
     private float stateTime;
     public TiledMap map;
     private Array<Projectile> projectiles = new Array<>();
+    private GameScreen gameScreen;
 
     public Player(TextureRegion image, TiledMapTileLayer collisionLayer) {
         super(image);
@@ -38,7 +40,7 @@ public class Player extends Character {
         currentLevel = 1;
         map = new TmxMapLoader().load("level1.tmx");
 
-        rightAnimation = new Animation<>(0.15f, R.getRegions("astro_run_right1"));
+        rightAnimation = new Animation<>(0.15f, R.getRegions("astro_run_right"));
         leftAnimation = new Animation<>(0.15f, R.getRegions("astro_run_left"));
 
         if (rightAnimation.getKeyFrames().length == 0 || leftAnimation.getKeyFrames().length == 0) {
@@ -49,6 +51,10 @@ public class Player extends Character {
         state = State.IDLE_RIGHT;
 
         setPosition(new Vector2(0, TILE_HEIGHT * 2));
+    }
+
+    public void setCollisionLayer(TiledMapTileLayer layer) {
+        this.collisionLayer = layer;
     }
 
     public Array<Projectile> getProjectiles() {
@@ -124,11 +130,11 @@ public class Player extends Character {
 
         // Check collision before updating position
         if (!isColliding(newX, position.y)) {
-            position.x = newX; // Move horizontally if no collision
+            position.x = newX;
         }
 
         if (!isColliding(position.x, newY)) {
-            position.y = newY; // Move vertically if no collision
+            position.y = newY;
         }
 
         rect.setPosition(position);
@@ -149,11 +155,9 @@ public class Player extends Character {
             // Check if the tile has a collision property set to true and is not a floor
             boolean isColliding = properties.containsKey("collision") && (boolean) properties.get("collision")
                 && !properties.containsKey("floor");
-            System.out.println("Collision at (" + tileX + ", " + tileY + "): " + isColliding);
             return isColliding;
         }
 
         return false;
     }
-
 }

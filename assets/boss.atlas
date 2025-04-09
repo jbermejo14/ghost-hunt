@@ -1,0 +1,9 @@
+boss.png
+size:512,128
+repeat:none
+boss-idle
+bounds:104,2,100,100
+boss-left
+bounds:2,2,100,100
+boss-right
+bounds:206,2,100,100

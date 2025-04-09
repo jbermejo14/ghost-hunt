@@ -1,0 +1,9 @@
+ghost.png
+size:256,64
+repeat:none
+ghost-idle
+bounds:106,2,50,50
+ghost-left
+bounds:54,2,50,50
+ghost-right
+bounds:2,2,50,50
