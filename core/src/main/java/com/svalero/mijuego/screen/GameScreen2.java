@@ -21,22 +21,22 @@ public class GameScreen2 implements Screen {
     private SpriteBatch batch;
     TiledMap map = new TmxMapLoader().load("level2.tmx");
 
-    public GameScreen2(Mijuego game) {
+    public GameScreen2(Mijuego game, int level) {
         this.game = game;
-
         ConfigurationManager.loadPreferences();
         loadManagers();
+        this.logicManager = new LogicManager(game, level);
+        this.renderManager = new RenderManager(logicManager, map);
+
         remainingEnemies = 5;
-        font = new BitmapFont(); // Create font
+        font = new BitmapFont();
         font.getData().setScale(2);
         font.setColor(Color.WHITE);
-        batch = new SpriteBatch(); // Create batch for rendering text
+        batch = new SpriteBatch();
     }
 
     private void loadManagers() {
-        logicManager = new LogicManager(game);
         levelManager = new LevelManager(logicManager);
-        renderManager = new RenderManager(logicManager, map);
     }
 
     @Override
@@ -48,10 +48,10 @@ public class GameScreen2 implements Screen {
         if (!game.pause) {
             logicManager.update(dt);
         }
-        renderManager.render();
+        renderManager.render2();
         batch.begin();
-        font.draw(batch, "Enemies Remaining: " + LogicManager.getRemainingEnemies(), 20, 460); // Display kill count
-        font.draw(batch, "Level 2 ", 20, 400); // Display kill count
+        font.draw(batch, "Enemies Remaining: " + LogicManager.getRemainingEnemies(), 20, 460);
+        font.draw(batch, "Level 2 ", 20, 400);
 
         batch.end();
     }

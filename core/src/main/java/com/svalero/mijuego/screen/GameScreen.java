@@ -23,24 +23,24 @@ public class GameScreen implements Screen {
 
     public GameScreen(Mijuego game) {
         this.game = game;
-
+        logicManager = new LogicManager(game, 1);
         ConfigurationManager.loadPreferences();
         loadManagers();
         remainingEnemies = 5;
-        font = new BitmapFont(); // Create font
+        font = new BitmapFont();
         font.getData().setScale(2);
         font.setColor(Color.WHITE);
-        batch = new SpriteBatch(); // Create batch for rendering text
+        batch = new SpriteBatch();
     }
 
     private void loadManagers() {
-        logicManager = new LogicManager(game);
         levelManager = new LevelManager(logicManager);
         renderManager = new RenderManager(logicManager, map);
     }
 
     @Override
     public void show() {
+
     }
 
     @Override

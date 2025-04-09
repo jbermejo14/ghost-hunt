@@ -130,11 +130,11 @@ public class Player extends Character {
 
         // Check collision before updating position
         if (!isColliding(newX, position.y)) {
-            position.x = newX; // Move horizontally if no collision
+            position.x = newX;
         }
 
         if (!isColliding(position.x, newY)) {
-            position.y = newY; // Move vertically if no collision
+            position.y = newY;
         }
 
         rect.setPosition(position);
@@ -155,7 +155,6 @@ public class Player extends Character {
             // Check if the tile has a collision property set to true and is not a floor
             boolean isColliding = properties.containsKey("collision") && (boolean) properties.get("collision")
                 && !properties.containsKey("floor");
-            System.out.println("Collision at (" + tileX + ", " + tileY + "): " + isColliding);
             return isColliding;
         }
 
