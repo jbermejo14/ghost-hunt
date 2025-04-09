@@ -57,20 +57,48 @@ public class RenderManager {
         batch.end();
     }
 
+    public void render2() {
+        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+
+        updateCamera();
+
+        camera.update();
+        mapRenderer.setView(camera);
+        mapRenderer.render();
+
+        batch.begin();
+        batch.draw(logicManager.player.getCurrentFrame(), logicManager.player.getX(), logicManager.player.getY());
+        batch.draw(logicManager.santi.getCurrentFrame(), logicManager.santi.getX(), logicManager.santi.getY());
+
+        // Draw enemies
+        for (Enemy enemy : logicManager.enemies) {
+            if (enemy.isAlive()) {
+                batch.draw(enemy.getTexture(), enemy.getPosition().x, enemy.getPosition().y);
+            }
+        }
+
+        batch.draw(logicManager.boss1.getTexture(), logicManager.boss1.getPosition().x, logicManager.boss1.getPosition().y);
+
+        // Draw projectiles
+        for (Projectile projectile : logicManager.player.getProjectiles()) {
+            if (projectile.isActive()) {
+                batch.draw(projectile.getTexture(), projectile.getPosition().x, projectile.getPosition().y);
+            }
+        }
+        batch.end();
+    }
+
     public void updateMap(TiledMap newMap) {
         if (mapRenderer != null) {
-            mapRenderer.dispose(); // Dispose of the old renderer
+            mapRenderer.dispose();
         }
         mapRenderer = new OrthogonalTiledMapRenderer(newMap);
         batch = mapRenderer.getBatch();
-        System.out.println("Map updated to: " + newMap);
     }
 
     public TiledMap getMap() {
         return mapRenderer.getMap();
     }
-
-
 
     private void updateCamera() {
         camera.position.set(
@@ -79,5 +107,4 @@ public class RenderManager {
             0
         );
     }
-
 }
