@@ -32,13 +32,15 @@ public class LogicManager {
     private static int remainingEnemies = 0;
     public Santi santi;
     private RenderManager renderManager;
-    Boss boss1 = new Boss(R.getTextureBoss("boss-idle"), 600, 400, 100, 100, 300);
     private int totalEnemiesKilled;
+    public Boss boss1;
 
     public LogicManager(Mijuego game, int level) {
         this.game = game;
         this.level = level;
         this.renderManager = new RenderManager(this, loadMap("level1.tmx"));
+        this.boss1 = new Boss(R.getTextureBoss("boss-idle"), 600, 400, 100, 100, 300);
+
         this.gameOver = false;
         initializeGameObjects();
     }
@@ -84,6 +86,8 @@ public class LogicManager {
         enemy2.setPlayer(player);
         enemy3.setPlayer(player);
         enemy4.setPlayer(player);
+
+        this.boss1.setPlayer(player);
 
         enemies.add(enemy1);
         enemies.add(enemy2);
@@ -156,10 +160,6 @@ public class LogicManager {
     private void changeToNextLevel() {
         System.out.println("Loading Level 2...");
         this.level = 2;
-
-        this.boss1 = boss1;
-
-        boss1.setPlayer(player);
 
         TiledMap newMap = loadMap("level2.tmx");
         if (newMap == null) {

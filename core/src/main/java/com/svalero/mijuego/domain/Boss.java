@@ -42,8 +42,6 @@ public class Boss {
     }
 
     public void update(float dt) {
-        if (!alive || player == null) return; // If the enemy is not alive or player is not set, do nothing
-
         float distanceToPlayer = position.dst(player.getPosition());
         System.out.println("Distance to player: " + distanceToPlayer); // Debugging line
 
