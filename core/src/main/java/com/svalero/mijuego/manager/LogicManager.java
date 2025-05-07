@@ -16,7 +16,7 @@ import com.svalero.mijuego.domain.*;
 
 import static com.svalero.mijuego.domain.Player.State.*;
 import static com.svalero.mijuego.util.Constants.*;
-
+import static com.svalero.mijuego.screen.ConfigurationScreen.sound;
 import static com.svalero.mijuego.util.Constants.PLAYER_RUNNING_SPEED;
 
 import com.svalero.mijuego.screen.GameOver;
@@ -35,14 +35,16 @@ public class LogicManager {
     private int totalEnemiesKilled;
     public Boss boss1;
 
-    public LogicManager(Mijuego game, int level) {
+    public LogicManager(Mijuego game, int level, String map_string, String ground) {
         this.game = game;
         this.level = level;
-        this.renderManager = new RenderManager(this, loadMap("level1.tmx"));
-        this.boss1 = new Boss(R.getTextureBoss("boss-idle"), 600, 400, 100, 100, 300);
+        this.renderManager = new RenderManager(this, loadMap(map_string));
+        this.boss1 = new Boss(R.getTextureBoss("boss-idle"), 600, 400, 50, 100, 300, this);
 
         this.gameOver = false;
-        initializeGameObjects();
+        TiledMap map = renderManager.getMap();
+        TiledMapTileLayer collisionLayer = (TiledMapTileLayer) map.getLayers().get(ground);
+        initializeGameObjects(collisionLayer);
     }
 
     private void managePlayerInput(float dt) {
@@ -67,9 +69,8 @@ public class LogicManager {
         return new TmxMapLoader().load(mapPath);
     }
 
-    private void initializeGameObjects() {
-        TiledMap map = renderManager.getMap();
-        TiledMapTileLayer collisionLayer = (TiledMapTileLayer) map.getLayers().get("ground");
+    private void initializeGameObjects(TiledMapTileLayer collisionLayer) {
+        System.out.println(collisionLayer);
         player = new Player(R.getTexture("astro_idle_right"), collisionLayer);
         santi = new Santi(R.getTexture("astro_idle_right"), collisionLayer);
         createEnemies();
@@ -107,7 +108,9 @@ public class LogicManager {
             for (Enemy enemy : enemies) {{
                 if (enemy.isAlive() && projectile.getBounds().overlaps(new Rectangle(enemy.getPosition().x, enemy.getPosition().y, TILE_WIDTH, TILE_HEIGHT))) {
                     projectile.setActive(false);
-                    R.getSound("death").play();
+                    if (sound) {
+                        R.getSound("death").play();
+                    }
                     enemy.kill();
                     enemiesToRemove.add(enemy);
                 }
@@ -115,7 +118,9 @@ public class LogicManager {
 
                 if (enemy.isAlive() && projectile.getBounds().overlaps(new Rectangle(enemy.getPosition().x, enemy.getPosition().y, TILE_WIDTH, TILE_HEIGHT))) {
                     projectile.setActive(false);
-                    R.getSound("death").play();
+                    if (sound) {
+                        R.getSound("death").play();
+                    }
                     enemy.kill();
                     enemiesToRemove.add(enemy);
                 }
@@ -162,6 +167,7 @@ public class LogicManager {
         this.level = 2;
 
         TiledMap newMap = loadMap("level2.tmx");
+        TiledMapTileLayer collisionLayer = (TiledMapTileLayer) newMap.getLayers().get("ground2");
         if (newMap == null) {
             System.out.println("Failed to load level2.tmx");
             return;
@@ -170,7 +176,7 @@ public class LogicManager {
         ((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen2(game, this.level));
         renderManager.updateMap(newMap);
 
-        initializeGameObjects();
+        initializeGameObjects(collisionLayer);
     }
 
     public static int getRemainingEnemies() {

@@ -22,6 +22,7 @@ public class ConfigurationScreen implements Screen {
     private Stage stage;
     private Preferences prefs;
     private Screen backScreen;
+    public static Boolean sound = true;
 
     public ConfigurationScreen(Mijuego game, Screen backScreen) {
         this.game = game;
@@ -38,7 +39,6 @@ public class ConfigurationScreen implements Screen {
             VisUI.load();
 
         stage = new Stage();
-
         VisTable table = new VisTable(true);
         table.setFillParent(true);
         table.center();
@@ -54,6 +54,8 @@ public class ConfigurationScreen implements Screen {
             public void clicked(InputEvent event, float x, float y) {
                 prefs.putBoolean("sound", checkSound.isChecked());
                 prefs.flush();
+                System.out.println("Pulsao");
+                sound = false;
             }
         });
 
@@ -66,7 +68,7 @@ public class ConfigurationScreen implements Screen {
             }
         });
 
-
+        System.out.println(sound);
         table.row();
         table.add(title).center();
         table.row();

@@ -10,10 +10,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 public class LevelManager {
     public TiledMap map;
-    private TiledMapTileLayer groundLayer;
-    private MapLayer toolLayer;
     public Batch batch;
-    public int currentLevel;
     OrthogonalTiledMapRenderer mapRenderer;
 
     private LogicManager logicManager;

@@ -2,6 +2,7 @@ package com.svalero.mijuego.domain;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.svalero.mijuego.manager.LogicManager;
 
 public class Boss {
     private TextureRegion texture;
@@ -11,9 +12,11 @@ public class Boss {
     private float attackRange; // Range within which the enemy can attack
     private float detectionRange; // Range within which the enemy can detect the player
     private Player player; // Reference to the player
+    private LogicManager logicManager;
 
-    public Boss(TextureRegion texture, float x, float y, float speed, float attackRange, float detectionRange) {
+    public Boss(TextureRegion texture, float x, float y, float speed, float attackRange, float detectionRange, LogicManager logicManager) {
         this.texture = texture;
+        this.logicManager = logicManager;
         this.position = new Vector2(x, y);
         this.alive = true;
         this.speed = speed;
@@ -57,13 +60,12 @@ public class Boss {
     }
 
     private void moveTowardsPlayer(float dt) {
-        System.out.println("Enemy position: " + position); // Debugging line
         Vector2 direction = player.getPosition().cpy().sub(position).nor(); // Normalize the direction vector
         position.add(direction.scl(speed * dt)); // Move towards the player
     }
 
     private void attackPlayer() {
-        // Implement attack logic here
-        System.out.println("Enemy is attacking the player!");
+        this.logicManager.gameOver = true;
+        this.logicManager.endGame();
     }
 }

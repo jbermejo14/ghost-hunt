@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.svalero.mijuego.manager.R;
 import com.svalero.mijuego.screen.GameScreen;
 import lombok.Data;
+import static com.svalero.mijuego.screen.ConfigurationScreen.sound;
 
 import static com.svalero.mijuego.util.Constants.TILE_HEIGHT;
 import static com.svalero.mijuego.util.Constants.TILE_WIDTH;
@@ -62,12 +63,15 @@ public class Player extends Character {
     }
 
     public void shoot() {
-        R.getSound("bullet").play();
+
+        System.out.println(sound);
+        if (sound) {
+            R.getSound("bullet").play();
+        }
         float bulletSpeed = 600; // Adjust as needed
         float bulletX = position.x;
         float bulletY = position.y + TILE_HEIGHT / 2f; // Center the bullet vertically
 
-        // Determine the bullet's direction based on the player's state
         float bulletVelocityX = 0;
         float bulletVelocityY = 0;
 

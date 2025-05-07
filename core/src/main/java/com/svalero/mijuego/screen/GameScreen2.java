@@ -25,7 +25,7 @@ public class GameScreen2 implements Screen {
         this.game = game;
         ConfigurationManager.loadPreferences();
         loadManagers();
-        this.logicManager = new LogicManager(game, level);
+        this.logicManager = new LogicManager(game, level, "level2.tmx", "ground2");
         this.renderManager = new RenderManager(logicManager, map);
 
         remainingEnemies = 5;
@@ -76,7 +76,7 @@ public class GameScreen2 implements Screen {
     @Override
     public void dispose() {
         R.dispose();
-        font.dispose(); // Dispose font to avoid memory leaks
-        batch.dispose(); // Dispose batch
+        font.dispose();
+        batch.dispose();
     }
 }

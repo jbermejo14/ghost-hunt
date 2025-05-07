@@ -15,8 +15,8 @@ public class Santi extends Character {
     private TiledMapTileLayer collisionLayer;
     private Animation<TextureRegion> rightAnimation, leftAnimation;
     private float stateTime;
-    private float speed = 100; // Speed of Santi
-    private float detectionRange = 400; // Range to detect the player
+    private float speed = 50;
+    private float detectionRange = 400;
 
     public Santi(TextureRegion image, TiledMapTileLayer collisionLayer) {
         super(image);
@@ -54,7 +54,7 @@ public class Santi extends Character {
 
     private void moveTowardsPlayer(Player player, float dt) {
         // Calculate direction to the player
-        Vector2 direction = player.getPosition().cpy().sub(position).nor(); // Normalize the direction vector
+        Vector2 direction = player.getPosition().cpy().sub(position).nor();
 
         // Move Santi towards the player
         float moveX = direction.x * speed * dt;

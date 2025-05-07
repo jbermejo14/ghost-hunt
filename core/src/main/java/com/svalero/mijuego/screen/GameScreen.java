@@ -23,7 +23,7 @@ public class GameScreen implements Screen {
 
     public GameScreen(Mijuego game) {
         this.game = game;
-        logicManager = new LogicManager(game, 1);
+        logicManager = new LogicManager(game, 1, "level1.tmx", "ground");
         ConfigurationManager.loadPreferences();
         loadManagers();
         remainingEnemies = 5;
