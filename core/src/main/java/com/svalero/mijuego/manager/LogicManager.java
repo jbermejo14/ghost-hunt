@@ -39,7 +39,7 @@ public class LogicManager {
         this.game = game;
         this.level = level;
         this.renderManager = new RenderManager(this, loadMap(map_string));
-        this.boss1 = new Boss(R.getTextureBoss("boss-idle"), 600, 400, 50, 100, 300, this);
+        this.boss1 = new Boss(R.getTextureBoss("boss-idle"), 600, 400, 50, 20, 300, this);
 
         this.gameOver = false;
         TiledMap map = renderManager.getMap();
@@ -60,7 +60,7 @@ public class LogicManager {
         } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
             player.state = DOWN;
             player.move(0, -PLAYER_RUNNING_SPEED * dt);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             player.shoot();
         }
     }
@@ -77,10 +77,10 @@ public class LogicManager {
     }
 
     private void createEnemies() {
-        Enemy enemy1 = new Enemy(R.getTextureEnemy("ghost-idle"), 300, 100, 100, 100, 300, this);
-        Enemy enemy2 = new Enemy(R.getTextureEnemy("ghost-idle"), 350, 600, 100, 100, 300, this);
-        Enemy enemy3 = new Enemy(R.getTextureEnemy("ghost-idle"), 100, 1000, 100, 100, 300, this);
-        Enemy enemy4 = new Enemy(R.getTextureEnemy("ghost-idle"), 350, 400, 100, 100, 300, this);
+        Enemy enemy1 = new Enemy(R.getTextureEnemy("ghost-idle"), 300, 100, 75, 75, 400, this);
+        Enemy enemy2 = new Enemy(R.getTextureEnemy("ghost-idle"), 350, 600, 75, 75, 400, this);
+        Enemy enemy3 = new Enemy(R.getTextureEnemy("ghost-idle"), 100, 1000, 75, 75, 400, this);
+        Enemy enemy4 = new Enemy(R.getTextureEnemy("ghost-idle"), 350, 400, 75, 75, 400, this);
 
 
         enemy1.setPlayer(player);
@@ -105,7 +105,7 @@ public class LogicManager {
         for (Projectile projectile : projectiles) {
             projectile.update(dt);
 
-            for (Enemy enemy : enemies) {{
+            for (Enemy enemy : enemies) {
                 if (enemy.isAlive() && projectile.getBounds().overlaps(new Rectangle(enemy.getPosition().x, enemy.getPosition().y, TILE_WIDTH, TILE_HEIGHT))) {
                     projectile.setActive(false);
                     if (sound) {
@@ -115,15 +115,11 @@ public class LogicManager {
                     enemiesToRemove.add(enemy);
                 }
             }
-
-                if (enemy.isAlive() && projectile.getBounds().overlaps(new Rectangle(enemy.getPosition().x, enemy.getPosition().y, TILE_WIDTH, TILE_HEIGHT))) {
-                    projectile.setActive(false);
-                    if (sound) {
-                        R.getSound("death").play();
-                    }
-                    enemy.kill();
-                    enemiesToRemove.add(enemy);
-                }
+            if (projectile.getBounds().overlaps(new Rectangle(this.boss1.getPosition().x, this.boss1.getPosition().y, TILE_WIDTH, TILE_HEIGHT))) {
+                this.boss1.lives = this.boss1.lives - 1;
+                System.out.println("lives: " + this.boss1.lives);
+                this.boss1.kill();
+                projectiles.clear();
             }
         }
 
@@ -153,10 +149,21 @@ public class LogicManager {
                 remainingEnemies++;
             }
         }
+        System.out.println(this.level);
+        if (this.level == 2) {
+            System.out.println("lere");
+            if (this.boss1.isAlive()) {
+                remainingEnemies++;
+            }
+        }
 
         if (remainingEnemies == 0 && !levelChanged) {
             levelChanged = true;
-            changeToNextLevel();
+            if (!this.boss1.isAlive()) {
+                endGame();
+            } else {
+                changeToNextLevel();
+            }
         } else if (remainingEnemies > 0) {
             levelChanged = false;
         }
@@ -168,10 +175,6 @@ public class LogicManager {
 
         TiledMap newMap = loadMap("level2.tmx");
         TiledMapTileLayer collisionLayer = (TiledMapTileLayer) newMap.getLayers().get("ground2");
-        if (newMap == null) {
-            System.out.println("Failed to load level2.tmx");
-            return;
-        }
 
         ((Game) Gdx.app.getApplicationListener()).setScreen(new GameScreen2(game, this.level));
         renderManager.updateMap(newMap);
@@ -204,7 +207,12 @@ public class LogicManager {
         }
 
         if (remainingEnemies <= 0) {
-            changeToNextLevel();
-        }
+            if (!this.boss1.isAlive()) {
+                endGame();
+                System.out.println("executed");
+            } else {
+                System.out.println("executed2");
+                changeToNextLevel();
+            }        }
     }
 }

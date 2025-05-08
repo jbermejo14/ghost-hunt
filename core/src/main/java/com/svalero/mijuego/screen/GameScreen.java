@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.svalero.mijuego.Mijuego;
 import com.svalero.mijuego.manager.*;
+import static com.svalero.mijuego.screen.ConfigurationScreen.score;
 
 public class GameScreen implements Screen {
 
@@ -50,9 +51,10 @@ public class GameScreen implements Screen {
         }
         renderManager.render();
         batch.begin();
-        font.draw(batch, "Enemies Remaining: " + LogicManager.getRemainingEnemies(), 20, 460);
-        font.draw(batch, "Level 1", 20, 400);
-
+        if (score) {
+            font.draw(batch, "Enemies Remaining: " + LogicManager.getRemainingEnemies(), 20, 460);
+            font.draw(batch, "Level 1", 20, 400);
+        }
         batch.end();
     }
 

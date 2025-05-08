@@ -64,10 +64,11 @@ public class Player extends Character {
 
     public void shoot() {
 
-        System.out.println(sound);
+
         if (sound) {
             R.getSound("bullet").play();
         }
+
         float bulletSpeed = 600; // Adjust as needed
         float bulletX = position.x;
         float bulletY = position.y + TILE_HEIGHT / 2f; // Center the bullet vertically

@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.svalero.mijuego.manager.LogicManager;
 
 public class Boss {
+    public int lives;
     private TextureRegion texture;
     private Vector2 position;
     private boolean alive;
@@ -19,6 +20,7 @@ public class Boss {
         this.logicManager = logicManager;
         this.position = new Vector2(x, y);
         this.alive = true;
+        this.lives = 3;
         this.speed = speed;
         this.attackRange = attackRange;
         this.detectionRange = detectionRange;
@@ -37,7 +39,11 @@ public class Boss {
     }
 
     public void kill() {
-        this.alive = false;
+        if (this.lives == 0) {
+            logicManager.endGame();
+            System.out.println("kill");
+            this.alive = false;
+        }
     }
 
     public void setPlayer(Player player) {
@@ -46,7 +52,6 @@ public class Boss {
 
     public void update(float dt) {
         float distanceToPlayer = position.dst(player.getPosition());
-        System.out.println("Distance to player: " + distanceToPlayer); // Debugging line
 
         // Check if the player is within detection range
         if (distanceToPlayer < detectionRange) {
