@@ -15,7 +15,7 @@ public class Enemy {
     private float speed; // Speed of the enemy
     private float attackRange; // Range within which the enemy can attack
     private float detectionRange; // Range within which the enemy can detect the player
-    private Player player; // Reference to the player
+    private Santi player; // Reference to the player
     private Mijuego game;
     private LogicManager logicManager;
 
@@ -45,7 +45,7 @@ public class Enemy {
         this.alive = false;
     }
 
-    public void setPlayer(Player player) {
+    public void setPlayer(Santi player) {
         this.player = player;
     }
 
@@ -72,4 +72,6 @@ public class Enemy {
         this.logicManager.gameOver = true;
         this.logicManager.endGame();
     }
+
+
 }

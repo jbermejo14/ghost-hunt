@@ -33,7 +33,7 @@ public class MainMenuScreen implements Screen {
         table.center();
         stage.addActor(table);
 
-        VisLabel title = new VisLabel("Mi Juego");
+        VisLabel title = new VisLabel("CAZAFANTASMAS");
         title.setFontScale(2.5f);
 
         VisTextButton playButton = new VisTextButton("PLAY");
@@ -54,6 +54,15 @@ public class MainMenuScreen implements Screen {
             }
         });
 
+        VisTextButton instructionsButton = new VisTextButton("INSTRUCTIONS");
+        instructionsButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                dispose();
+                ((Game) Gdx.app.getApplicationListener()).setScreen(new InstructionScreen(game, game.getScreen()));
+            }
+        });
+
         VisTextButton quitButton = new VisTextButton("EXIT");
         quitButton.addListener(new ClickListener() {
             @Override
@@ -69,6 +78,8 @@ public class MainMenuScreen implements Screen {
         table.add(playButton).center();
         table.row();
         table.add(configButton).center();
+        table.row();
+        table.add(instructionsButton).center();
         table.row();
         table.add(quitButton).center();
 

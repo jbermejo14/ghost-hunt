@@ -35,7 +35,7 @@ public class LogicManager {
         this.game = game;
         this.level = level;
         this.renderManager = new RenderManager(this, loadMap(map_string));
-        this.boss1 = new Boss(R.getTextureBoss("boss-idle"), 600, 400, 50, 20, 300, this);
+        this.boss1 = new Boss(R.getTextureBoss("boss-idle"), 600, 800, 80, 40, 600, this);
 
         this.gameOver = false;
         TiledMap map = renderManager.getMap();
@@ -73,16 +73,16 @@ public class LogicManager {
     }
 
     private void createEnemies() {
-        Enemy enemy1 = new Enemy(R.getTextureEnemy("ghost-idle"), 300, 100, 75, 75, 400, this);
-        Enemy enemy2 = new Enemy(R.getTextureEnemy("ghost-idle"), 350, 600, 75, 75, 400, this);
-        Enemy enemy3 = new Enemy(R.getTextureEnemy("ghost-idle"), 100, 1000, 75, 75, 400, this);
-        Enemy enemy4 = new Enemy(R.getTextureEnemy("ghost-idle"), 350, 400, 75, 75, 400, this);
+        Enemy enemy1 = new Enemy(R.getTextureEnemy("ghost-idle"), 300, 100, 75, 40, 750, this);
+        Enemy enemy2 = new Enemy(R.getTextureEnemy("ghost-idle"), 350, 600, 75, 40, 750, this);
+        Enemy enemy3 = new Enemy(R.getTextureEnemy("ghost-idle"), 100, 900, 75, 40, 750, this);
+        Enemy enemy4 = new Enemy(R.getTextureEnemy("ghost-idle"), 800, 400, 75, 40, 750, this);
 
 
-        enemy1.setPlayer(player);
-        enemy2.setPlayer(player);
-        enemy3.setPlayer(player);
-        enemy4.setPlayer(player);
+        enemy1.setPlayer(santi);
+        enemy2.setPlayer(santi);
+        enemy3.setPlayer(santi);
+        enemy4.setPlayer(santi);
 
         this.boss1.setPlayer(player);
 
