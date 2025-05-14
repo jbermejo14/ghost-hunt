@@ -23,7 +23,7 @@ public class SplashScreen implements Screen {
     public SplashScreen(Mijuego game) {
         this.game = game;
 
-        splashTexture = new Texture(Gdx.files.internal("splash.png"));
+        splashTexture = new Texture(Gdx.files.internal("splash.jpg"));
         splashImage = new Image(splashTexture);
 
         stage = new Stage();

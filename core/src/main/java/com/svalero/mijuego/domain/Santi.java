@@ -15,7 +15,7 @@ public class Santi extends Character {
     private TiledMapTileLayer collisionLayer;
     private Animation<TextureRegion> rightAnimation, leftAnimation;
     private float stateTime;
-    private float speed = 50;
+    private float speed = 70;
     private float detectionRange = 400;
 
     public Santi(TextureRegion image, TiledMapTileLayer collisionLayer) {
@@ -104,6 +104,10 @@ public class Santi extends Character {
         }
 
         return false;
+    }
+
+    public Vector2 getPosition() {
+        return position; // This method returns the player's position
     }
 }
 
