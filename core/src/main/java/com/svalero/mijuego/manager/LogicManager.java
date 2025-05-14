@@ -3,14 +3,11 @@ package com.svalero.mijuego.manager;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.TimeUtils;
 import com.svalero.mijuego.Mijuego;
 import com.svalero.mijuego.domain.*;
 
@@ -20,7 +17,6 @@ import static com.svalero.mijuego.screen.ConfigurationScreen.sound;
 import static com.svalero.mijuego.util.Constants.PLAYER_RUNNING_SPEED;
 
 import com.svalero.mijuego.screen.GameOver;
-import com.svalero.mijuego.screen.GameScreen;
 import com.svalero.mijuego.screen.GameScreen2;
 
 public class LogicManager {
@@ -97,6 +93,7 @@ public class LogicManager {
 
         remainingEnemies = enemies.size;
     }
+
 
     private void updateProjectiles(float dt) {
         Array<Projectile> projectiles = player.getProjectiles();
